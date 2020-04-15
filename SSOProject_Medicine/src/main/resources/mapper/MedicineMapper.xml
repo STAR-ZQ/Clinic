@@ -1,0 +1,31 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="cn.service.MedicineMapper">
+    <select id="all" resultType="cn.entity.Medicine">
+        select * from medicine where createTime = #{createTime}
+        <if test="toll_type != '全部'">
+            and toll_type=#{toll_type}
+        </if>
+        <if test='status != -1'>
+            and status=#{status}
+        </if>
+        <if test='info != null'>
+            and med_name LIKE concat('%',#{info},'%') OR CODE LIKE concat('%',#{info},'%') OR
+            factory LIKE concat('%',#{info},'%')
+        </if>
+        limit #{from},#{pageSize}
+    </select>
+    <select id="totalCount" resultType="java.lang.Integer">
+        select count(1) from medicine where createTime = #{createTime}
+        <if test="toll_type != '全部'">
+            and toll_type=#{toll_type}
+        </if>
+        <if test='status != -1'>
+            and status=#{status}
+        </if>
+        <if test='info != null'>
+            and med_name LIKE concat('%',#{info},'%') OR CODE LIKE concat('%',#{info},'%') OR
+            factory LIKE concat('%',#{info},'%')
+        </if>
+    </select>
+</mapper>
